@@ -1,0 +1,87 @@
+html,
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.prose pre {
+  background-color: #f7f9fc !important;
+  color: #333 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  border: 1px solid #e0e7ff !important;
+  overflow-x: auto !important;
+  max-width: 100% !important;
+  white-space: pre !important;
+}
+
+.dark .prose pre {
+  background-color: #262727 !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+.prose code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  display: block !important;
+  max-width: 100% !important;
+}
+
+.prose pre code {
+  font-family: "Fira Code", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Optional: prevent any overflow from breaking the layout */
+article.prose {
+  overflow-x: hidden;
+}
+
+/* .prose pre code {
+  display: block;
+  white-space: pre;
+} */
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
