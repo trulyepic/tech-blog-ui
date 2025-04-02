@@ -1,10 +1,56 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../../api/postApi";
 import PostCard from "../../components/PostCard";
+import ExternalLinkCard from "../../components/ExternalLinkCard";
+import exhibitImg from "../../assets/images/exhibt.png";
+import starflickWikiImg from "../../assets/images/starflick.png";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
+
+  //   const externalLinks = [
+  //     {
+  //       title: "My Portfolio",
+  //       url: "https://yourportfolio.com",
+  //       description: "Explore my personal projects, apps, and tools.",
+  //       image: "https://via.placeholder.com/400x200", // Optional
+  //     },
+  //     {
+  //       title: "Dev Blog on Hashnode",
+  //       url: "https://hashnode.com/@yourhandle",
+  //       description: "Articles and tutorials on React, FastAPI, and more.",
+  //     },
+  //     {
+  //       title: "Music Discovery App",
+  //       url: "https://yourmusicapp.com",
+  //       image: "https://via.placeholder.com/400x200",
+  //     },
+  //   ];
+
+  const externalLinks = [
+    {
+      title: "Ex-hibt",
+      url: "https://www.ex-hibt.com/",
+      description:
+        "Create Your Images Collections & Explore Collections From Other Users",
+      image: exhibitImg,
+      favicon: "https://www.ex-hibt.com/favicon.ico",
+    },
+    {
+      title: "StarFlick Wiki Hub",
+      url: "https://www.starflickswiki.com/",
+      description:
+        "Starflicks WikiExplore information on all your favorite Korean shows and Star them up",
+      image: starflickWikiImg,
+      favicon: "https://www.starflickswiki.com/favicon.ico",
+    },
+    {
+      title: "Music Discovery App",
+      url: "https://yourmusicapp.com",
+      image: "https://via.placeholder.com/400x200",
+    },
+  ];
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,12 +83,16 @@ const Home = () => {
         ))}
       </div>
 
-      {/* <div className="mt-16">
+      <div className="mt-16">
         <h2 className="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
-          🔥 Featured Toolkits
+          External Links
         </h2>
-        <p className="text-gray-600 dark:text-gray-400">Coming soon...</p>
-      </div> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {externalLinks.map((link, idx) => (
+            <ExternalLinkCard key={idx} link={link} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

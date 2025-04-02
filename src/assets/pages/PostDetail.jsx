@@ -6,6 +6,7 @@ import PostCard from "../../components/PostCard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import Giscus from "@giscus/react";
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -148,6 +149,26 @@ const PostDetail = () => {
             ))}
           </div>
         </article>
+      </div>
+
+      <div className="mt-12">
+        <h3 className="text-2xl font-semibold mb-4">Comments</h3>
+        <Giscus
+          id="comments"
+          repo={import.meta.env.VITE_GISCUS_REPO}
+          repoId={import.meta.env.VITE_GISCUS_REPO_ID}
+          category={import.meta.env.VITE_GISCUS_CATEGORY}
+          categoryId={import.meta.env.VITE_GISCUS_CATEGORY_ID}
+          mapping="pathname"
+          term={post.title}
+          reactionsEnabled="1"
+          emitMetadata="0"
+          inputPosition="top"
+          theme={isDarkMode ? "dark" : "light"}
+          lang="en"
+          loading="lazy"
+          crossOrigin="anonymous"
+        />
       </div>
     </div>
   );

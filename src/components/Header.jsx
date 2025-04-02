@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/images/logo1-studio.png";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -31,11 +32,11 @@ const Header = () => {
   return (
     <header className="bg-neutral-100 dark:bg-neutral-950 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-6xl mx-auto px-8 py-3 flex items-center justify-between">
-        <Link
-          to="/"
-          className="text-lg font-semibold text-gray-900 dark:text-white"
-        >
-          Tech Tutorials Hub
+        <Link to="/" className="flex items-center space-x-2">
+          <img src={logo} alt="Logo" className="h-6 w-auto mb-[2px]" />
+          <span className="text-lg font-semibold text-gray-900 dark:text-white">
+            Tech Tutorials Hub
+          </span>
         </Link>
 
         <nav className="space-x-4 text-sm font-medium ml-auto flex items-center">
