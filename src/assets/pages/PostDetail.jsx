@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getPostBySlug, getPosts } from "../../api/postApi";
+import { getPostBySlug, getUserPosts } from "../../api/postApi";
 import ReactMarkdown from "react-markdown";
 import PostCard from "../../components/PostCard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -29,7 +29,7 @@ const PostDetail = () => {
       }
     };
     const fetchLatestPost = async () => {
-      const posts = await getPosts();
+      const posts = await getUserPosts();
       const sortedPosts = posts.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );

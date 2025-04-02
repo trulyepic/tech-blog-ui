@@ -1,26 +1,37 @@
 import { useEffect, useState } from "react";
 import AdminForm from "../../components/AdminForm";
-import { deletePost, getPosts } from "../../api/postApi";
+import { deletePost, getUserPosts } from "../../api/postApi";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
+  const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
 
   const fetchPosts = async () => {
-    const data = await getPosts();
-    setPosts(data);
+    try {
+      const data = await getUserPosts();
+      setPosts(data);
+    } catch (err) {
+      console.error("Unauthorized or failed to fetch posts.");
+    }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   const handleDelete = async (id) => {
-    if (window.confirm("Are y;ou sure you want to delete this post?")) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
       await deletePost(id);
       fetchPosts();
     }
   };
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    fetchPosts();
+  }, []);
 
   return (
     <div className="p-4">

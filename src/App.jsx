@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import PrivacyPolicy from "./assets/pages/PrivacyPolicy";
 import Terms from "./assets/pages/Terms";
 import Contact from "./assets/pages/Contact";
+import Login from "./assets/pages/Login";
+import Register from "./assets/pages/Register";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
 

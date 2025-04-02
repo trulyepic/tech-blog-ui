@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../../api/postApi";
+import { getPublicPosts } from "../../api/postApi";
 import PostCard from "../../components/PostCard";
 import ExternalLinkCard from "../../components/ExternalLinkCard";
 import exhibitImg from "../../assets/images/exhibt.png";
@@ -54,7 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await getPosts();
+      const data = await getPublicPosts();
       setPosts(data);
     };
     fetchPosts();

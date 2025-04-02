@@ -1,28 +1,50 @@
 // const API_BASE = "http://localhost:8000/posts";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const getAuthHeaders = () => {
+  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  return {
+    "Content-Type": "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
+};
+
 export const createPost = async (postData) => {
   const res = await fetch(API_BASE_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(postData),
   });
   return res.json();
 };
 
-export const getPosts = async () => {
-  const res = await fetch(API_BASE_URL);
+export const getPublicPosts = async () => {
+  const res = await fetch(API_BASE_URL); // GET /posts
+  return res.json();
+};
+
+export const getUserPosts = async () => {
+  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  if (!token) throw new Error("No access token found");
+
+  const res = await fetch(`${API_BASE_URL}/my`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // ✅ This line is critical
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch user posts");
+  }
+
   return res.json();
 };
 
 export const updatePost = async (id, postData) => {
   const res = await fetch(`${API_BASE_URL}/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(postData),
   });
   return res.json();
@@ -31,6 +53,7 @@ export const updatePost = async (id, postData) => {
 export const deletePost = async (id) => {
   const res = await fetch(`${API_BASE_URL}/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
   return res.json();
 };

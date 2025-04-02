@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo1-studio.png";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   //   const [darkMode, setDarkMode] = useState(
   //     localStorage.getItem("theme") === "dark"
   //   );
@@ -16,7 +17,29 @@ const Header = () => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
-  const showAdminLink = import.meta.env.VITE_SHOW_ADMIN === "true";
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
+  };
+
+  //   const showAdminLink = import.meta.env.VITE_SHOW_ADMIN === "true";
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -50,7 +73,7 @@ const Header = () => {
           >
             Home
           </Link>
-          {showAdminLink && (
+          {user && (
             <Link
               to="/admin"
               className={`hover:text-blue-600 ${
@@ -61,6 +84,38 @@ const Header = () => {
             >
               Admin
             </Link>
+          )}
+
+          {!user ? (
+            <>
+              <Link
+                to="/login"
+                className={`hover:text-blue-600 ${
+                  pathname === "/login"
+                    ? "text-blue-600"
+                    : "text-gray-700 dark:text-gray-300"
+                }`}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className={`hover:text-blue-600 ${
+                  pathname === "/register"
+                    ? "text-blue-600"
+                    : "text-gray-700 dark:text-gray-300"
+                }`}
+              >
+                Register
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={logout}
+              className="text-xs px-2 py-1 border rounded text-gray-600 dark:text-gray-300 border-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Logout
+            </button>
           )}
           <button
             onClick={() => setDarkMode(!darkMode)}
