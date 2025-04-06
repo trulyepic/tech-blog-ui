@@ -3,6 +3,9 @@ frontend:
   phases:
     preBuild:
       commands:
+        - nvm install 20
+        - nvm use 20
+        - node -v
         - echo "VITE_API_BASE_URL=https://tech-blog-backend-production.up.railway.app/posts" >> .env
         - echo "VITE_API_BASE_USER_URL=https://tech-blog-backend-production.up.railway.app/users" >> .env
         - echo "VITE_GISCUS_REPO=trulyepic/tech-blog-ui" >> .env
