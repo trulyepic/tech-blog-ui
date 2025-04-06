@@ -14,7 +14,7 @@ frontend:
         - npm install
         - npm run build
   artifacts:
-    baseDirectory: build
+    baseDirectory: dist
     files:
       - "**/*"
       - public/sitemap.xml
@@ -22,5 +22,3 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-  environment:
-    runtime: nodejs20.x
