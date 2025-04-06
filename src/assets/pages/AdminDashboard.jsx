@@ -15,6 +15,7 @@ const AdminDashboard = () => {
       setPosts(data);
     } catch (err) {
       console.error("Unauthorized or failed to fetch posts.");
+      console.error(err);
     }
   };
 

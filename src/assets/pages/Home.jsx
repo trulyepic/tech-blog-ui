@@ -4,6 +4,7 @@ import PostCard from "../../components/PostCard";
 import ExternalLinkCard from "../../components/ExternalLinkCard";
 import exhibitImg from "../../assets/images/exhibt.png";
 import starflickWikiImg from "../../assets/images/starflick.png";
+import { Title, Meta, Link as HeadLink } from "react-head";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -66,6 +67,34 @@ const Home = () => {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
+      {/* SEO META */}
+      <Title>CodeSprig | Tech Tutorials and Tools</Title>
+      <Meta
+        name="description"
+        content="Explore real-world coding projects, tutorials, and dev tools."
+      />
+      <Meta name="robots" content="index, follow" />
+      <Meta
+        property="og:title"
+        content="CodeSprig | Tech Tutorials and Tools"
+      />
+      <Meta
+        property="og:description"
+        content="Explore real-world coding projects, tutorials, and dev tools."
+      />
+      <Meta property="og:url" content="https://codesprig.com/" />
+      <Meta property="og:image" content="/preview.jpg" />
+      <Meta name="twitter:card" content="summary_large_image" />
+      <Meta
+        name="twitter:title"
+        content="CodeSprig | Tech Tutorials and Tools"
+      />
+      <Meta
+        name="twitter:description"
+        content="Explore real-world coding projects, tutorials, and dev tools."
+      />
+      <Meta name="twitter:image" content="/preview.jpg" />
+      <HeadLink rel="canonical" href="https://codesprig.com/" />
       <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
         Latest Blog Posts
       </h1>

@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Giscus from "@giscus/react";
+import { Title, Meta, Link as HeadLink } from "react-head";
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -67,8 +68,25 @@ const PostDetail = () => {
     post.updated_at || post.created_at
   ).toLocaleDateString();
 
+  const postDescription = post.content?.slice(0, 150).replace(/[#_*`>]/g, "");
+
   return (
     <div className="max-w-6xl mx-auto px-8 py-10">
+      {/* SEO */}
+      <Title>{post.title} | CodeSprig</Title>
+      <Meta name="description" content={postDescription} />
+      <Meta property="og:title" content={post.title} />
+      <Meta property="og:description" content={postDescription} />
+      <Meta
+        property="og:url"
+        content={`https://codesprig.com/posts/${post.slug}`}
+      />
+      <Meta name="twitter:title" content={post.title} />
+      <Meta name="twitter:description" content={postDescription} />
+      <HeadLink
+        rel="canonical"
+        href={`https://codesprig.com/posts/${post.slug}`}
+      />
       <div className="flex flex-col lg:flex-row items-start gap-10">
         {/* Latest post slightly aligned left to match header */}
         {latestPost && (
@@ -84,14 +102,24 @@ const PostDetail = () => {
             &larr; Back to Home
           </Link>
 
-          <h1 className="text-4xl font-bold mb-1">{post.title}</h1>
-          <p className="text-gray-500 text-sm -mt-1 dark:text-gray-400">
-            {post.slug}
-          </p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            {post.title}
+          </h1>
 
-          <p className="text-gray-500 text-xs italic -mt-2 dark:text-gray-400">
-            Last updated: {formattedDate}
-          </p>
+          <div className="mb-1 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+            <p className="italic">
+              Slug: <span className="not-italic">{post.slug}</span>
+            </p>
+            <p className="italic">
+              Last updated: <span className="not-italic">{formattedDate}</span>
+            </p>
+            <p className="italic">
+              Written by:{" "}
+              <span className="not-italic font-medium">
+                {post.user?.username}
+              </span>
+            </p>
+          </div>
 
           <div className="w-full overflow-x-hidden">
             {isDarkMode !== null && (

@@ -58,7 +58,7 @@ const Header = () => {
         <Link to="/" className="flex items-center space-x-2">
           <img src={logo} alt="Logo" className="h-6 w-auto mb-[2px]" />
           <span className="text-lg font-semibold text-gray-900 dark:text-white">
-            Tech Tutorials Hub
+            Code Sprig
           </span>
         </Link>
 
