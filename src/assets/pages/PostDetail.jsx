@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getPostBySlug, getUserPosts } from "../../api/postApi";
+import { getPostBySlug, getPublicPosts } from "../../api/postApi";
 import ReactMarkdown from "react-markdown";
 import PostCard from "../../components/PostCard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -8,6 +8,7 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Giscus from "@giscus/react";
 import { Title, Meta, Link as HeadLink } from "react-head";
+import ExternalLinksSection from "../../components/ExternalLinksSection";
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -30,7 +31,7 @@ const PostDetail = () => {
       }
     };
     const fetchLatestPost = async () => {
-      const posts = await getUserPosts();
+      const posts = await getPublicPosts();
       const sortedPosts = posts.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
@@ -64,12 +65,23 @@ const PostDetail = () => {
   if (error) return <div className="p-6 text-red-500">{error}</div>;
   if (!post) return <div className="p-6">Loading...</div>;
 
-  const formattedDate = new Date(
-    post.updated_at || post.created_at
-  ).toLocaleDateString();
+  // const formattedDate = new Date(
+  //   post.updated_at || post.created_at
+  // ).toLocaleDateString();
+
+  const formatDateTime = (dateString) => {
+    return new Date(dateString).toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
 
   const postDescription = post.content?.slice(0, 150).replace(/[#_*`>]/g, "");
-
+  // console.log("post: ", post);
   return (
     <div className="max-w-6xl mx-auto px-8 py-10">
       {/* SEO */}
@@ -87,12 +99,16 @@ const PostDetail = () => {
         rel="canonical"
         href={`https://codesprig.com/posts/${post.slug}`}
       />
-      <div className="flex flex-col lg:flex-row items-start gap-10">
+      {/* <div className="flex flex-col lg:flex-row items-start gap-10"> */}
+      <div className="flex flex-col-reverse lg:flex-row-reverse items-start gap-10">
         {/* Latest post slightly aligned left to match header */}
         {latestPost && (
-          <aside className="w-72 flex-shrink-0 -ml-2">
-            <h3 className="text-xl font-semibold mb-4">Latest Post</h3>
-            <PostCard post={latestPost} />
+          <aside className="w-72 flex-shrink-0 -ml-2 space-y-10">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Latest Post</h3>
+              <PostCard post={latestPost} />
+            </div>
+            <ExternalLinksSection limit={2} />
           </aside>
         )}
 
@@ -106,63 +122,83 @@ const PostDetail = () => {
             {post.title}
           </h1>
 
-          <div className="mb-1 text-sm text-gray-600 dark:text-gray-400 space-y-1">
-            <p className="italic">
-              Slug: <span className="not-italic">{post.slug}</span>
-            </p>
-            <p className="italic">
-              Last updated: <span className="not-italic">{formattedDate}</span>
-            </p>
-            <p className="italic">
-              Written by:{" "}
-              <span className="not-italic font-medium">
-                {post.user?.username}
+          <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            {/* <p className="italic mb-1">
+              <span className="not-italic text-gray-500 dark:text-gray-400">
+                Slug:
+              </span>{" "}
+              {post.slug}
+            </p> */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-1">
+              <span className="">
+                PUBLISHED{" "}
+                <span className="not-italic">
+                  {formatDateTime(post.created_at)}
+                </span>
               </span>
+
+              {post.updated_at !== post.created_at && (
+                <>
+                  <span>|</span>
+                  <span className="">
+                    UPDATED{" "}
+                    <span className="not-italic">
+                      {formatDateTime(post.updated_at)}
+                    </span>
+                  </span>
+                </>
+              )}
+            </div>
+            <p className="text-lg font-semibold text-gray-900 dark:text-white my-1">
+              By {post.user?.username}
             </p>
+            <hr className="border-t border-gray-300 dark:border-gray-600 my-2" />
           </div>
 
           <div className="w-full overflow-x-hidden">
             {isDarkMode !== null && (
-              <ReactMarkdown
-                components={{
-                  code({ inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || "");
-                    return !inline && match ? (
-                      <div className="overflow-x-auto my-4 rounded-lg">
-                        <SyntaxHighlighter
-                          language={match[1]}
-                          style={isDarkMode ? oneDark : oneLight}
-                          PreTag="div"
-                          wrapLongLines
-                          customStyle={{
-                            margin: 0,
-                            background: "transparent",
-                            padding: "1rem",
-                            overflowX: "auto",
-                            maxWidth: "100%",
-                          }}
-                          codeTagProps={{
-                            style: {
-                              whiteSpace: "pre",
-                              display: "block",
+              <div className="[&>h1:first-child]:mt-2 [&>h2:first-child]:mt-2 [&>h3:first-child]:mt-2">
+                <ReactMarkdown
+                  components={{
+                    code({ inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      return !inline && match ? (
+                        <div className="overflow-x-auto my-4 rounded-lg">
+                          <SyntaxHighlighter
+                            language={match[1]}
+                            style={isDarkMode ? oneDark : oneLight}
+                            PreTag="div"
+                            wrapLongLines
+                            customStyle={{
+                              margin: 0,
+                              background: "transparent",
+                              padding: "1rem",
+                              overflowX: "auto",
                               maxWidth: "100%",
-                            },
-                          }}
-                          {...props}
-                        >
-                          {String(children).replace(/\n$/, "")}
-                        </SyntaxHighlighter>
-                      </div>
-                    ) : (
-                      <code className={className} {...props}>
-                        {children}
-                      </code>
-                    );
-                  },
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
+                            }}
+                            codeTagProps={{
+                              style: {
+                                whiteSpace: "pre",
+                                display: "block",
+                                maxWidth: "100%",
+                              },
+                            }}
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        </div>
+                      ) : (
+                        <code className={className} {...props}>
+                          {children}
+                        </code>
+                      );
+                    },
+                  }}
+                >
+                  {post.content}
+                </ReactMarkdown>
+              </div>
             )}
           </div>
 
