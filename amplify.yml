@@ -23,7 +23,7 @@ frontend:
     paths:
       - node_modules/**/*
   customHeaders:
-    - pattern: /sitemap.xml
+    - pattern: /sitemap-main.xml
       headers:
         - key: Content-Type
           value: application/xml
@@ -31,9 +31,10 @@ frontend:
       headers:
         - key: Content-Type
           value: text/plain
+
   customRules:
-    - source: /sitemap.xml
-      target: /sitemap.xml
+    - source: /sitemap-main.xml
+      target: /sitemap-main.xml
       status: 200
     - source: /robots.txt
       target: /robots.txt
