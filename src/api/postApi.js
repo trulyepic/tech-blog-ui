@@ -29,7 +29,7 @@ export const getUserPosts = async () => {
   const token = JSON.parse(localStorage.getItem("user"))?.access_token;
   if (!token) throw new Error("No access token found");
 
-  const res = await fetch(`${API_BASE_URL}/my`, {
+  const res = await fetch(`${API_BASE_URL}my`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`, // ✅ This line is critical
@@ -44,7 +44,7 @@ export const getUserPosts = async () => {
 };
 
 export const updatePost = async (id, postData) => {
-  const res = await fetch(`${API_BASE_URL}/${id}`, {
+  const res = await fetch(`${API_BASE_URL}${id}`, {
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(postData),
@@ -53,7 +53,7 @@ export const updatePost = async (id, postData) => {
 };
 
 export const deletePost = async (id) => {
-  const res = await fetch(`${API_BASE_URL}/${id}`, {
+  const res = await fetch(`${API_BASE_URL}${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -61,7 +61,7 @@ export const deletePost = async (id) => {
 };
 
 export const getPostBySlug = async (slug) => {
-  const res = await fetch(`${API_BASE_URL}/${slug}`);
+  const res = await fetch(`${API_BASE_URL}${slug}`);
   if (!res.ok) throw new Error("Post not found");
   return res.json();
 };

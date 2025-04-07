@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_USER_URL}/login`,
+        `${import.meta.env.VITE_API_BASE_USER_URL}login`,
         form
       );
       localStorage.setItem("user", JSON.stringify(res.data));
