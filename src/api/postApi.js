@@ -20,6 +20,8 @@ export const createPost = async (postData) => {
 
 export const getPublicPosts = async () => {
   const res = await fetch(API_BASE_URL); // GET /posts
+  console.log("API base:", import.meta.env.VITE_API_BASE_URL);
+
   return res.json();
 };
 
