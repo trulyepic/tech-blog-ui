@@ -7,7 +7,7 @@ const Footer = () => {
           reserved.
         </p>
         <p className="mt-1">
-          Built with 💻 using React, TailwindCSS, and FastAPI.
+          Tech Blogs 💻 Everything programming/coding related.
         </p>
         <div className="mt-4 space-x-4 text-sm">
           <a href="/privacy-policy" className="hover:underline">
