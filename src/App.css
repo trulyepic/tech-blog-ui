@@ -23,11 +23,13 @@ body {
 .prose code {
   white-space: pre-wrap !important;
   word-break: break-word !important;
-  display: block !important;
+  /* display: block !important; */
+  display: inline !important;
   max-width: 100% !important;
 }
 
 .prose pre code {
+  display: block !important;
   font-family: "Fira Code", monospace;
   font-size: 0.875rem;
   line-height: 1.5;
