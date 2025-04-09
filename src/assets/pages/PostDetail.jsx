@@ -24,14 +24,24 @@ const PostDetail = () => {
     const fetchPost = async () => {
       try {
         const data = await getPostBySlug(slug);
+        // console.log("post data: ", data);
         setPost(data);
       } catch (err) {
         setError("Post not found");
         console.error(err);
       }
     };
+    // const fetchLatestPost = async () => {
+    //   const posts = await getPublicPosts();
+    //   const sortedPosts = posts.sort(
+    //     (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    //   );
+    //   setLatestPost(sortedPosts.find((p) => p.slug !== slug));
+    // };
     const fetchLatestPost = async () => {
-      const posts = await getPublicPosts();
+      const pageSize = 9;
+      const { posts } = await getPublicPosts(1, pageSize);
+      // console.log("posts in fetchlates post: ", posts);
       const sortedPosts = posts.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );

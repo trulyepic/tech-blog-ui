@@ -18,11 +18,17 @@ export const createPost = async (postData) => {
   return res.json();
 };
 
-export const getPublicPosts = async () => {
-  const res = await fetch(API_BASE_URL); // GET /posts
-  console.log("API base:", import.meta.env.VITE_API_BASE_URL);
+// export const getPublicPosts = async () => {
+//   const res = await fetch(API_BASE_URL); // GET /posts
+//   console.log("API base:", import.meta.env.VITE_API_BASE_URL);
 
-  return res.json();
+//   return res.json();
+// };
+export const getPublicPosts = async (page = 1, pageSize = 9) => {
+  const res = await fetch(`${API_BASE_URL}?page=${page}&page_size=${pageSize}`);
+  const data = await res.json();
+  // console.log("api post: ", data);
+  return data; // Will return { total, posts }
 };
 
 export const getUserPosts = async () => {
