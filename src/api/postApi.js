@@ -10,8 +10,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // };
 
 const getAuthHeaders = () => {
+  if (typeof window === "undefined") {
+    return { "Content-Type": "application/json" };
+  }
+
   try {
-    const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+    const token = JSON.parse(window.localStorage.getItem("user"))?.access_token;
     return {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
