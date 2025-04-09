@@ -1,12 +1,25 @@
 // const API_BASE = "http://localhost:8000/posts";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// const getAuthHeaders = () => {
+//   const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+//   return {
+//     "Content-Type": "application/json",
+//     ...(token && { Authorization: `Bearer ${token}` }),
+//   };
+// };
+
 const getAuthHeaders = () => {
-  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
-  return {
-    "Content-Type": "application/json",
-    ...(token && { Authorization: `Bearer ${token}` }),
-  };
+  try {
+    const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+    return {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  } catch (err) {
+    console.error("Storage access error:", err);
+    return { "Content-Type": "application/json" };
+  }
 };
 
 export const createPost = async (postData) => {
