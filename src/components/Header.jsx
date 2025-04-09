@@ -18,8 +18,15 @@ const Header = () => {
   });
 
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
+    if (typeof window === "undefined") return null;
+
+    try {
+      const stored = window.localStorage.getItem("user");
+      return stored ? JSON.parse(stored) : null;
+    } catch (err) {
+      console.warn("Could not access localStorage:", err);
+      return null;
+    }
   });
 
   useEffect(() => {
