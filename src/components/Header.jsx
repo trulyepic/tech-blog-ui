@@ -9,11 +9,16 @@ const Header = () => {
   //     localStorage.getItem("theme") === "dark"
   //   );
   const [darkMode, setDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") return true;
-    if (savedTheme === "light") return false;
+    if (typeof window === "undefined") return false;
 
-    // Fallback to system preference
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") return true;
+      if (savedTheme === "light") return false;
+    } catch (e) {
+      console.warn("Theme storage not accessible", e);
+    }
+
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
@@ -31,12 +36,21 @@ const Header = () => {
 
   useEffect(() => {
     const root = window.document.documentElement;
+
     if (darkMode) {
       root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (err) {
+        console.warn("Unable to save theme to localStorage (dark):", err);
+      }
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      try {
+        localStorage.setItem("theme", "light");
+      } catch (err) {
+        console.warn("Unable to save theme to localStorage (light):", err);
+      }
     }
   }, [darkMode]);
 

@@ -49,7 +49,15 @@ export const getPublicPosts = async (page = 1, pageSize = 9) => {
 };
 
 export const getUserPosts = async () => {
-  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  // const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  let token = null;
+  if (typeof window !== "undefined") {
+    try {
+      token = JSON.parse(localStorage.getItem("user"))?.access_token;
+    } catch (e) {
+      console.warn("Token storage blocked", e);
+    }
+  }
   if (!token) throw new Error("No access token found");
 
   const res = await fetch(`${API_BASE_URL}my`, {
