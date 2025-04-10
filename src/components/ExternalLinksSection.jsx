@@ -1,6 +1,7 @@
 import ExternalLinkCard from "./ExternalLinkCard";
 import exhibitImg from "../assets/images/exhibt.png";
 import starflickWikiImg from "../assets/images/starflick.png";
+import discApp from "../assets/images/trackdisc.png";
 
 const externalLinks = [
   {
@@ -21,8 +22,10 @@ const externalLinks = [
   },
   {
     title: "Music Discovery App",
-    url: "https://yourmusicapp.com",
-    image: "https://via.placeholder.com/400x200",
+    url: "https://www.trackdiscov.com/",
+    description: "Discover new music based on your favorite tracks",
+    image: discApp,
+    favicon: "https://www.trackdiscov.com/favicon.ico",
   },
 ];
 
