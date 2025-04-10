@@ -62,17 +62,6 @@ const Header = () => {
 
   //   const showAdminLink = import.meta.env.VITE_SHOW_ADMIN === "true";
 
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
-
   return (
     <header className="bg-neutral-100 dark:bg-neutral-950 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-6xl mx-auto px-8 py-3 flex items-center justify-between">
