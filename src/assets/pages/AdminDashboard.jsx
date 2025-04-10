@@ -7,7 +7,17 @@ const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  // const token = JSON.parse(localStorage.getItem("user"))?.access_token;
+
+  let token = null;
+
+  if (typeof window !== "undefined") {
+    try {
+      token = JSON.parse(localStorage.getItem("user"))?.access_token;
+    } catch (e) {
+      console.warn("Token read error:", e);
+    }
+  }
 
   const fetchPosts = async () => {
     try {
