@@ -6,9 +6,12 @@ import PostCard from "../../components/PostCard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import Giscus from "@giscus/react";
+// import Giscus from "@giscus/react";
 import { Title, Meta, Link as HeadLink } from "react-head";
 import ExternalLinksSection from "../../components/ExternalLinksSection";
+
+import React, { lazy, Suspense } from "react";
+const Giscus = lazy(() => import("@giscus/react"));
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -227,22 +230,24 @@ const PostDetail = () => {
 
       <div className="mt-12">
         <h3 className="text-2xl font-semibold mb-4">Comments</h3>
-        <Giscus
-          id="comments"
-          repo={import.meta.env.VITE_GISCUS_REPO}
-          repoId={import.meta.env.VITE_GISCUS_REPO_ID}
-          category={import.meta.env.VITE_GISCUS_CATEGORY}
-          categoryId={import.meta.env.VITE_GISCUS_CATEGORY_ID}
-          mapping="pathname"
-          term={post.title}
-          reactionsEnabled="1"
-          emitMetadata="0"
-          inputPosition="top"
-          theme={isDarkMode ? "dark" : "light"}
-          lang="en"
-          loading="lazy"
-          crossOrigin="anonymous"
-        />
+        <Suspense fallback={<div>Loading comments...</div>}>
+          <Giscus
+            id="comments"
+            repo={import.meta.env.VITE_GISCUS_REPO}
+            repoId={import.meta.env.VITE_GISCUS_REPO_ID}
+            category={import.meta.env.VITE_GISCUS_CATEGORY}
+            categoryId={import.meta.env.VITE_GISCUS_CATEGORY_ID}
+            mapping="pathname"
+            term={post.title}
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="top"
+            theme={isDarkMode ? "dark" : "light"}
+            lang="en"
+            loading="lazy"
+            crossOrigin="anonymous"
+          />
+        </Suspense>
       </div>
     </div>
   );
