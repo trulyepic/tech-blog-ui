@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.codesprig.com/sitemap-main.xml
+Sitemap: https://api.codesprig.com/sitemap.xml
 
