@@ -22,3 +22,23 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+  customHeaders:
+    - pattern: /sitemap-main.xml
+      headers:
+        - key: Content-Type
+          value: application/xml
+    - pattern: /robots.txt
+      headers:
+        - key: Content-Type
+          value: text/plain
+
+  customRules:
+    - source: /sitemap-main.xml
+      target: /sitemap-main.xml
+      status: 200
+    - source: /robots.txt
+      target: /robots.txt
+      status: 200
+    - source: /<*>
+      target: /index.html
+      status: 200
