@@ -8,6 +8,17 @@ const Header = () => {
   //   const [darkMode, setDarkMode] = useState(
   //     localStorage.getItem("theme") === "dark"
   //   );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem("user");
+      setUser(stored ? JSON.parse(stored) : null);
+    } catch (err) {
+      console.warn("Could not access localStorage:", err);
+    }
+  }, []);
+
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") return false;
 
@@ -22,17 +33,17 @@ const Header = () => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
-  const [user, setUser] = useState(() => {
-    if (typeof window === "undefined") return null;
+  // const [user, setUser] = useState(() => {
+  //   if (typeof window === "undefined") return null;
 
-    try {
-      const stored = window.localStorage.getItem("user");
-      return stored ? JSON.parse(stored) : null;
-    } catch (err) {
-      console.warn("Could not access localStorage:", err);
-      return null;
-    }
-  });
+  //   try {
+  //     const stored = window.localStorage.getItem("user");
+  //     return stored ? JSON.parse(stored) : null;
+  //   } catch (err) {
+  //     console.warn("Could not access localStorage:", err);
+  //     return null;
+  //   }
+  // });
 
   useEffect(() => {
     const root = window.document.documentElement;

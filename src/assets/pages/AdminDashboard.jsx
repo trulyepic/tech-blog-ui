@@ -9,15 +9,15 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   // const token = JSON.parse(localStorage.getItem("user"))?.access_token;
 
-  let token = null;
+  // let token = null;
 
-  if (typeof window !== "undefined") {
-    try {
-      token = JSON.parse(localStorage.getItem("user"))?.access_token;
-    } catch (e) {
-      console.warn("Token read error:", e);
-    }
-  }
+  // if (typeof window !== "undefined") {
+  //   try {
+  //     token = JSON.parse(localStorage.getItem("user"))?.access_token;
+  //   } catch (e) {
+  //     console.warn("Token read error:", e);
+  //   }
+  // }
 
   const fetchPosts = async () => {
     try {
@@ -36,13 +36,33 @@ const AdminDashboard = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("/login");
+  //     return;
+  //   }
+  //   fetchPosts();
+  // }, []);
+
   useEffect(() => {
+    const getToken = () => {
+      try {
+        return JSON.parse(localStorage.getItem("user"))?.access_token || null;
+      } catch (e) {
+        console.warn("Token read error:", e);
+        return null;
+      }
+    };
+
+    const token = getToken();
+
     if (!token) {
       navigate("/login");
       return;
     }
+
     fetchPosts();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="p-4">
