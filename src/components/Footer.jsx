@@ -19,7 +19,7 @@ const Footer = () => {
           <a href="/contact" className="hover:underline">
             Contact
           </a>
-          <a href="/sitemap-main.xml" className="hover:underline">
+          <a href="/sitemap.xml" className="hover:underline">
             Sitemap
           </a>
         </div>
