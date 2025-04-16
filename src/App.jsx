@@ -11,8 +11,11 @@ import Terms from "./assets/pages/Terms";
 import Contact from "./assets/pages/Contact";
 import Login from "./assets/pages/Login";
 import Register from "./assets/pages/Register";
+import useFixTrailingSlash from "./assets/util/useFixTrailingSlash";
 
 function App() {
+  const isRedirecting = useFixTrailingSlash();
+  if (isRedirecting) return null;
   return (
     <div className="min-h-screen bg-white text-gray-900 dark:bg-neutral-900  dark:text-white transition-colors duration-300 flex flex-col">
       <Router>
