@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
-  console.log("post: ", post);
+  // console.log("post: ", post);
   return (
     <div className="border dark:border-gray-700 p-4 rounded shadow-sm hover:shadow-md transition bg-white dark:bg-neutral-900">
       <Link to={`/posts/${post.slug}`}>

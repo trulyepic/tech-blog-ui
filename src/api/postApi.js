@@ -41,7 +41,7 @@ export const createPost = async (postData) => {
 
 //   return res.json();
 // };
-export const getPublicPosts = async (page = 1, pageSize = 9) => {
+export const getPublicPosts = async (page = 1, pageSize = 6) => {
   const res = await fetch(`${API_BASE_URL}?page=${page}&page_size=${pageSize}`);
   const data = await res.json();
   // console.log("api post: ", data);

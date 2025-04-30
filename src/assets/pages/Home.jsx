@@ -16,16 +16,31 @@ const Home = () => {
 
   // useEffect(() => {
   //   const fetchPosts = async () => {
-  //     const data = await getPublicPosts();
-  //     setPosts(data);
+  //     if (loading) return; // prevent duplicate fetch
+  //     setLoading(true);
+  //     const data = await getPublicPosts(page, pageSize);
+  //     console.log("Fetched posts:", data);
+  //     setPosts((prev) => {
+  //       const newPosts = data.posts.filter(
+  //         (post) => !prev.some((p) => p.id === post.id)
+  //       );
+  //       return [...prev, ...newPosts];
+  //     });
+  //     setTotal(data.total);
+  //     setLoading(false);
   //   };
+
   //   fetchPosts();
-  // }, []);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (loading) return; // prevent duplicate fetch
-      setLoading(true);
-      const data = await getPublicPosts(page, pageSize);
+  // }, [page]);
+
+  const fetchPosts = async (currentPage) => {
+    setLoading(true);
+    try {
+      const data = await getPublicPosts(currentPage, pageSize);
+      console.log(
+        `Fetched page ${currentPage}:`,
+        data.posts.map((p) => p.id)
+      );
       setPosts((prev) => {
         const newPosts = data.posts.filter(
           (post) => !prev.some((p) => p.id === post.id)
@@ -33,20 +48,33 @@ const Home = () => {
         return [...prev, ...newPosts];
       });
       setTotal(data.total);
+    } catch (err) {
+      console.error("Failed to fetch posts", err);
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    fetchPosts();
+  useEffect(() => {
+    fetchPosts(page);
   }, [page]);
 
   const hasMore = posts.length < total;
 
+  // const handleLoadMore = () => {
+  //   setPage((prev) => prev + 1);
+  // };
   const handleLoadMore = () => {
-    setPage((prev) => prev + 1);
+    if (hasMore && !loading) {
+      setPage((prev) => prev + 1);
+    }
   };
 
+  // const filtered = posts.filter((post) =>
+  //   post.title.toLowerCase().includes(search.toLocaleLowerCase())
+  // );
   const filtered = posts.filter((post) =>
-    post.title.toLowerCase().includes(search.toLocaleLowerCase())
+    post.title.toLowerCase().includes(search.toLowerCase())
   );
 
   // console.log("post in home: ", posts);
@@ -90,6 +118,11 @@ const Home = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      {/* <p className="text-sm text-gray-500 mb-2">
+        Total posts: {posts.length} | Filtered posts: {filtered.length} | Total
+        from backend: {total}
+      </p> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((post) => (
