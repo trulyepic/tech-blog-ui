@@ -12,7 +12,7 @@ const Home = () => {
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const pageSize = 9;
+  const pageSize = 6;
 
   // useEffect(() => {
   //   const fetchPosts = async () => {
